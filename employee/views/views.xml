@@ -17,7 +17,7 @@
           <field name="card_number"/>
           <field name="place_of_birth"/>
           <field name="date_of_issue"/>
-          <field name="image"/>
+          <field name="image" widget="image" class="oe_avatar"/>
           <field name="issueing_authority"/>
           <field name="department_id"/>
           <field name="personal_quality"/>

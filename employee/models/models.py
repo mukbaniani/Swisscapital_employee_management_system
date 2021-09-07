@@ -24,7 +24,9 @@ class Employee(models.Model):
     card_number = fields.Char(
         string="ბარათის ნომერი", required=True, help="2 ციფრი 2 დიდი ლათინური ასო 5 ციფრი"
     )
-    image = fields.Image(string="სურათი")
+    image = fields.Image(
+        string="სურათი", max_with=100, max_height=100
+    )
     place_of_birth = fields.Char(string="დაბადების ადგილი", required=True)
     date_of_issue = fields.Date(string="გაცემის თარიღი", required=True)
     issueing_authority = fields.Char(string="გამცემი ორგანო", required=True)
