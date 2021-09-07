@@ -1,0 +1,79 @@
+from datetime import datetime
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+import re
+
+
+class Employee(models.Model):
+    _name = 'employee.employee'
+    _description = 'swisscapital employee management'
+    _order = "id desc"
+
+    first_name = fields.Char(string="სახელი", required=True)
+    last_name = fields.Char(string="გვარი", required=True)
+    citizenship = fields.Char(string="მოქალაქეობა", required=True)
+    gender = fields.Selection([
+        ("კ", "კაცი"),
+        ("ქ", "ქალი")
+    ], required=True, string="სქესი")
+    person_number = fields.Char(
+        string="პირადი ნომერი", required=True, help="შეიყვანეთ 11 ციფრი"
+    )
+    date_of_birth = fields.Date(string="დაბადების თარიღი", required=True)
+    date_expiry = fields.Date(string="მოქმედების ვადა", required=True)
+    card_number = fields.Char(
+        string="ბარათის ნომერი", required=True, help="2 ციფრი 2 დიდი ლათინური ასო 5 ციფრი"
+    )
+    image = fields.Image(string="სურათი")
+    place_of_birth = fields.Char(string="დაბადების ადგილი", required=True)
+    date_of_issue = fields.Date(string="გაცემის თარიღი", required=True)
+    issueing_authority = fields.Char(string="გამცემი ორგანო", required=True)
+    department_id = fields.Many2one(
+        "department.department", string="დეპარტამენტი", required=True
+    )
+    personal_quality = fields.Many2many(
+        "personal_quality.personal_quality", string="პიროვნული თვისებები", required=True
+    )
+
+    _sql_constraints = [
+        ('person_number', 'unique(person_number)', 
+        'პირადი ნომერი უნდა იყოს უნიკალური მსგავსი პირადი ნომერი უკვე გამოყენებულია'),
+    ]
+
+    @api.constrains("person_number")
+    def _check_person_number_length(self):
+        for record in self:
+            if re.match("^[0-9]{11}$", record.person_number) == None:
+                raise ValidationError("პირადი ნომერი უნდა შეიცავდეს 11 ციფრს")
+
+    @api.constrains("card_number")
+    def _check_card_number_length(self):
+        for record in self:
+            if re.match("^[0-9]{2}[A-Z]{2}[0-9]{5}$", record.card_number) == None:
+                raise ValidationError(
+                    "ბარათის ნომერი უნდა შეიცავდეს 9 სიმბოლოს 2 ცირფი 2 დიდი ლათინური ასო 5 ციფრი"
+                )
+
+    @api.constrains("date_of_birth")
+    def _check_date_of_birth(self):
+        ADULT = 18
+        TODAY = datetime.today()
+        for record in self:
+            bdate = fields.Datetime.to_datetime(record.date_of_birth)
+            age = (TODAY - bdate).days / 365.24
+            if age < ADULT:
+                raise ValidationError("თანამშრომელი უნდა იყოს სრულწლოვანი")
+
+    @api.constrains("date_of_issue")
+    def _check_date_of_issue(self):
+        TODAY = fields.Date.today()
+        for record in self:
+            if record.date_of_issue > TODAY:
+                raise ValidationError("პირადობის გაცემის თარიღი უნდა იყოს დღევანდელი დღე ან წინა დღეები")
+
+    @api.constrains("date_expiry")
+    def _check_date_expiry(self):
+        TODAY = fields.Date.today()
+        for record in self:
+            if record.date_expiry < TODAY:
+                raise ValidationError("პირად ნომერს ვადა აქვს გასული")

@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+    explicit list view definition
+
+    <record model="ir.ui.view" id="department.list">
+      <field name="name">department list</field>
+      <field name="model">department.department</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+
+    actions opening views on models
+
+    <record model="ir.actions.act_window" id="department.action_window">
+      <field name="name">department window</field>
+      <field name="res_model">department.department</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    server action to the one above
+
+    <record model="ir.actions.server" id="department.action_server">
+      <field name="name">department server</field>
+      <field name="model_id" ref="model_department_department"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    Top menu item
+
+    <menuitem name="department" id="department.menu_root"/>
+
+    menu categories
+
+    <menuitem name="Menu 1" id="department.menu_1" parent="department.menu_root"/>
+    <menuitem name="Menu 2" id="department.menu_2" parent="department.menu_root"/>
+
+    actions
+
+    <menuitem name="List" id="department.menu_1_list" parent="department.menu_1"
+              action="department.action_window"/>
+    <menuitem name="Server to list" id="department" parent="department.menu_2"
+              action="department.action_server"/>
+
+  </data>
+</odoo>

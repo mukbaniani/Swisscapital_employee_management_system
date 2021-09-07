@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+    explicit list view definition
+
+    <record model="ir.ui.view" id="personal_quality.list">
+      <field name="name">personal_quality list</field>
+      <field name="model">personal_quality.personal_quality</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+
+    actions opening views on models
+
+    <record model="ir.actions.act_window" id="personal_quality.action_window">
+      <field name="name">personal_quality window</field>
+      <field name="res_model">personal_quality.personal_quality</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    server action to the one above
+
+    <record model="ir.actions.server" id="personal_quality.action_server">
+      <field name="name">personal_quality server</field>
+      <field name="model_id" ref="model_personal_quality_personal_quality"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    Top menu item
+
+    <menuitem name="personal_quality" id="personal_quality.menu_root"/>
+
+    menu categories
+
+    <menuitem name="Menu 1" id="personal_quality.menu_1" parent="personal_quality.menu_root"/>
+    <menuitem name="Menu 2" id="personal_quality.menu_2" parent="personal_quality.menu_root"/>
+
+    actions
+
+    <menuitem name="List" id="personal_quality.menu_1_list" parent="personal_quality.menu_1"
+              action="personal_quality.action_window"/>
+    <menuitem name="Server to list" id="personal_quality" parent="personal_quality.menu_2"
+              action="personal_quality.action_server"/>
+
+  </data>
+</odoo>
