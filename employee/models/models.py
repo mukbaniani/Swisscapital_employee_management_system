@@ -4,29 +4,32 @@ from odoo.exceptions import ValidationError
 import re
 
 
+TODAY = fields.Date.today()
+ADULT = 18
+
+
 class Employee(models.Model):
-    _name = 'employee.employee'
-    _description = 'swisscapital employee management'
+    _name = "employee.employee"
+    _description = "swisscapital employee management"
     _order = "id desc"
 
     first_name = fields.Char(string="სახელი", required=True)
     last_name = fields.Char(string="გვარი", required=True)
     citizenship = fields.Char(string="მოქალაქეობა", required=True)
-    gender = fields.Selection([
-        ("კ", "კაცი"),
-        ("ქ", "ქალი")
-    ], required=True, string="სქესი")
+    gender = fields.Selection(
+        [("კ", "კაცი"), ("ქ", "ქალი")], required=True, string="სქესი"
+    )
     person_number = fields.Char(
         string="პირადი ნომერი", required=True, help="შეიყვანეთ 11 ციფრი"
     )
     date_of_birth = fields.Date(string="დაბადების თარიღი", required=True)
     date_expiry = fields.Date(string="მოქმედების ვადა", required=True)
     card_number = fields.Char(
-        string="ბარათის ნომერი", required=True, help="2 ციფრი 2 დიდი ლათინური ასო 5 ციფრი"
+        string="ბარათის ნომერი",
+        required=True,
+        help="2 ციფრი 2 დიდი ლათინური ასო 5 ციფრი",
     )
-    image = fields.Image(
-        string="სურათი", max_with=100, max_height=100
-    )
+    image = fields.Image(string="სურათი", max_with=100, max_height=100)
     place_of_birth = fields.Char(string="დაბადების ადგილი", required=True)
     date_of_issue = fields.Date(string="გაცემის თარიღი", required=True)
     issueing_authority = fields.Char(string="გამცემი ორგანო", required=True)
@@ -36,11 +39,39 @@ class Employee(models.Model):
     personal_quality = fields.Many2many(
         "personal_quality.personal_quality", string="პიროვნული თვისებები", required=True
     )
+    fname_lname = fields.Char(
+        string="თანამშრომლის სახელი გვარი", compute="_compute_fname_lname"
+    )
+    count_age = fields.Char(
+        string="თანამშრომლის ასაკი", compute="_compute_date_of_birth", default=""
+    )
 
     _sql_constraints = [
-        ('person_number', 'unique(person_number)', 
-        'პირადი ნომერი უნდა იყოს უნიკალური მსგავსი პირადი ნომერი უკვე გამოყენებულია'),
+        (
+            "person_number",
+            "unique(person_number)",
+            "პირადი ნომერი უნდა იყოს უნიკალური მსგავსი პირადი ნომერი უკვე გამოყენებულია",
+        ),
     ]
+
+    def count_employee_age(self):
+        if self.date_of_birth:
+            today = datetime.now()
+            bdate = fields.Datetime.to_datetime(self.date_of_birth)
+            age = (today - bdate).days / 365.24
+            return int(age)
+
+    @api.depends("first_name", "last_name")
+    def _compute_fname_lname(self):
+        if self.first_name and self.last_name:
+            self.fname_lname = f"{self.first_name} {self.last_name}"
+        else:
+            self.fname_lname = ""
+
+    @api.depends("date_of_birth")
+    def _compute_date_of_birth(self):
+        age = self.count_employee_age()
+        self.count_age = f"{age} წლის"
 
     @api.constrains("person_number")
     def _check_person_number_length(self):
@@ -58,24 +89,20 @@ class Employee(models.Model):
 
     @api.constrains("date_of_birth")
     def _check_date_of_birth(self):
-        ADULT = 18
-        TODAY = datetime.today()
-        for record in self:
-            bdate = fields.Datetime.to_datetime(record.date_of_birth)
-            age = (TODAY - bdate).days / 365.24
-            if age < ADULT:
-                raise ValidationError("თანამშრომელი უნდა იყოს სრულწლოვანი")
+        age = self.count_employee_age()
+        if age < ADULT:
+            raise ValidationError("თანამშრომელი უნდა იყოს სრულწლოვანი")
 
     @api.constrains("date_of_issue")
     def _check_date_of_issue(self):
-        TODAY = fields.Date.today()
         for record in self:
             if record.date_of_issue > TODAY:
-                raise ValidationError("პირადობის გაცემის თარიღი უნდა იყოს დღევანდელი დღე ან წინა დღეები")
+                raise ValidationError(
+                    "პირადობის გაცემის თარიღი უნდა იყოს დღევანდელი დღე ან წინა დღეები"
+                )
 
     @api.constrains("date_expiry")
     def _check_date_expiry(self):
-        TODAY = fields.Date.today()
         for record in self:
             if record.date_expiry < TODAY:
                 raise ValidationError("პირად ნომერს ვადა აქვს გასული")
