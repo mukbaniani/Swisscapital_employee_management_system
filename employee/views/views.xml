@@ -31,6 +31,22 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <record model="ir.ui.view" id="employee_search">
+      <field name="name">employee.employee.search</field>
+      <field name="model">employee.employee</field>
+      <field name="arch" type="xml">
+        <search string="თანამშრომლები">
+          <field  name="first_name" />
+          <separator/>
+          <filter name="gender" string="ქალი" domain="[('gender', '=', 'ქ')]" />
+          <filter name="gender" string="კაცი" domain="[('gender', '=', 'კ')]" />
+          <group expand="1" string="დაჯგუფება დეპარტამენტის მიხედვით">
+            <filter string="დეპარტამენტი" name="department_id" context="{'group_by': 'department_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
     <record model="ir.actions.server" id="employee.action_server">
       <field name="name">employee server</field>
       <field name="model_id" ref="model_employee_employee"/>

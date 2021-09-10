@@ -82,7 +82,7 @@ class Employee(models.Model):
     @api.constrains("card_number")
     def _check_card_number_length(self):
         for record in self:
-            if re.match("^[0-9]{2}[A-Z]{2}[0-9]{5}$", record.card_number) == None:
+            if re.match("^[0-9]{2}[A-Z]{2}[0-9]{5}$", record.card_number) is None:
                 raise ValidationError(
                     "ბარათის ნომერი უნდა შეიცავდეს 9 სიმბოლოს 2 ცირფი 2 დიდი ლათინური ასო 5 ციფრი"
                 )
