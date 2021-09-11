@@ -8,27 +8,91 @@
       <field name="arch" type="xml">
         <tree>
           <field name="first_name"/>
-          <field name="last_name"/>
-          <field name="citizenship"/>
-          <field name="gender"/>
+          <field name="last_name"/>   
           <field name="person_number"/>
           <field name="date_of_birth"/>
-          <field name="date_expiry"/>
-          <field name="card_number"/>
-          <field name="place_of_birth"/>
-          <field name="date_of_issue"/>
-          <field name="image" widget="image" class="oe_avatar"/>
-          <field name="issueing_authority"/>
-          <field name="department_id"/>
-          <field name="personal_quality"/>
         </tree>
       </field>
-    </record>  
+    </record> 
+
+    <record model="ir.ui.view" id="employee_form">
+      <field name="name">employee.employee.form</field>
+      <field name="model">employee.employee</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="first_name"/>
+                <field name="citizenship"/>
+                <field name="person_number"/>
+                <field name="date_expiry"/>
+                <field name="image"/>
+                <field name="date_of_issue"/>
+                <field name="department_id"/>
+                <field name="fname_lname"/>
+              </group>
+              <group>
+                <field name="last_name"/>
+                <field name="gender"/>
+                <field name="date_of_birth"/>
+                <field name="card_number"/>
+                <field name="place_of_birth"/>
+                <field name="issueing_authority"/>
+                <field name="personal_quality" widget="many2many_tags"/>
+                <field name="count_age"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="employee_pivot">
+      <field name="name">employee.employee.pivot</field>
+      <field name="model">employee.employee</field>
+      <field name="arch" type="xml">
+        <pivot string="employee">
+          <field name="gender" type="row"/>
+          <field name="department_id" type="col"/>
+        </pivot>
+      </field>
+    </record> 
+
+    <record model="ir.ui.view" id="employee_kanban">
+      <field name="name">employee.employee.kanban</field>
+      <field name="model">employee.employee</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="image"/>
+          <field name="first_name"/>
+          <field name="last_name"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_global_click">
+                <div class="oe_kanban_details">
+                  <div class="oe_kanban_tags_section">
+                      <div class="o_kanban_image_fill_left d-none d-md-block">
+                        <field name="image" nolabel="1" widget="image" class="oe_right oe_avatar"/>
+                      </div>   
+                    <ul>
+                      <li>სახელი: <field name="first_name"/></li>
+                      <li>გვარი: <field name="last_name"/></li>
+                      <li>დაბადების თარიღი: <field name="last_name"/></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
 
     <record model="ir.actions.act_window" id="employee.action_window">
       <field name="name">employee window</field>
       <field name="res_model">employee.employee</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">pivot,kanban,tree,form</field>
     </record>
 
     <record model="ir.ui.view" id="employee_search">
