@@ -41,6 +41,7 @@
                 <field name="issueing_authority"/>
                 <field name="personal_quality" widget="many2many_tags"/>
                 <field name="count_age"/>
+                <field name="personal_quality_list"/>
               </group>
             </group>
           </sheet>

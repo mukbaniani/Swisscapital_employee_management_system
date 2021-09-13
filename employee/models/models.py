@@ -45,6 +45,11 @@ class Employee(models.Model):
     count_age = fields.Char(
         string="თანამშრომლის ასაკი", compute="_compute_date_of_birth", default=""
     )
+    personal_quality_list = fields.Char(
+        string="პიროვნული თვისებების სია",
+        compute="_compute_personal_quality",
+        store=True,
+    )
 
     _sql_constraints = [
         (
@@ -60,6 +65,14 @@ class Employee(models.Model):
             bdate = fields.Datetime.to_datetime(self.date_of_birth)
             age = (today - bdate).days / 365.24
             return int(age)
+
+    @api.depends("personal_quality")
+    def _compute_personal_quality(self):
+        quality_list = ""
+        for record in self:
+            for quality in record.personal_quality:
+                quality_list += f"{quality.name}, "
+                record.personal_quality_list = quality_list
 
     @api.depends("first_name", "last_name")
     def _compute_fname_lname(self):
