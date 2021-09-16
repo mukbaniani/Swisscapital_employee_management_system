@@ -54,5 +54,6 @@
     <menuitem name="Server to list" id="department" parent="department.menu_2"
               action="department.action_server"/>
 
+
   </data>
 </odoo>

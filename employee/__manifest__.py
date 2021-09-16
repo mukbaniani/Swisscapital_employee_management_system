@@ -19,8 +19,8 @@
     # always loaded
     "data": [
         # 'security/ir.model.access.csv',
-        "views/views.xml",
-        "views/templates.xml",
+        "views/employee.xml",
+        "views/contract_view.xml",
         "wizard/create_contract.xml",
     ],
 }

@@ -16,6 +16,6 @@ class CreateContractWizard(models.TransientModel):
 
     @api.constrains("finish_date")
     def _validate_finish_date(self):
-        if self.finish_date > self.create_at:
+        if self.finish_date < self.create_at:
             error_message = "კონტრაქტის დასრულების დრო მეტი უნდა იყოს კონტრაქტის დაწყების დაწყების დროზე"
             raise ValidationError(error_message)

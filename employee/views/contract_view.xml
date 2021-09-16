@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="contact_list" model="ir.ui.view">
+            <field name="name">contact list</field>
+            <field name="model">employee.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="constract_number" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="contract_act_window" model="ir.actions.act_window">
+            <field name="name">contract window</field>
+            <field name="res_model">employee.contract</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

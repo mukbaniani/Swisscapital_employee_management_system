@@ -39,6 +39,7 @@ class Employee(models.Model):
     personal_quality = fields.Many2many(
         "personal_quality.personal_quality", string="პიროვნული თვისებები", required=True
     )
+    contract = fields.Many2one("employee.contract", string="კონტრაქტი")
     fname_lname = fields.Char(
         string="თანამშრომლის სახელი გვარი", compute="_compute_fname_lname"
     )
