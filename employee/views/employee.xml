@@ -11,6 +11,7 @@
           <field name="last_name"/>   
           <field name="person_number"/>
           <field name="date_of_birth"/>
+          <field name="contract"/>
         </tree>
       </field>
     </record> 

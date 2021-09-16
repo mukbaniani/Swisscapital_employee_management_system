@@ -8,11 +8,13 @@
             <field name="arch" type="xml">
                 <form string="კონტრაქტის დამატება">
                     <group>
+                        <field name="contract_number"/>
                         <field name="create_at"/>
                         <field name="finish_date"/>
                         <field name="employee"/>
                     </group>
                     <footer>
+                        <button string="save" name="save" class="btn btn-info" type="object"/>
                         <button string="Cancel" class="btn btn-secondary" special="cancel"/>
                     </footer>
                 </form>

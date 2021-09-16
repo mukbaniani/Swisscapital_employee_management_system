@@ -19,3 +19,15 @@ class CreateContractWizard(models.TransientModel):
         if self.finish_date < self.create_at:
             error_message = "კონტრაქტის დასრულების დრო მეტი უნდა იყოს კონტრაქტის დაწყების დაწყების დროზე"
             raise ValidationError(error_message)
+
+    def save(self):
+        contract_vals = {
+            "start_date": self.create_at,
+            "end_date": self.finish_date,
+            "constract_number": self.contract_number,
+        }
+        self.env["employee.contract"].create(contract_vals)
+        contract = self.env["employee.contract"].search([("id", "=", self.id)])
+        self.env["employee.employee"].search([("id", "=", self.employee.id)]).update(
+            {"contract": contract}
+        )
