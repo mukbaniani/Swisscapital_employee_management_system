@@ -21,6 +21,9 @@
       <field name="arch" type="xml">
         <form>
           <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button string="კონტრაქტის დამატება" class="btn-primary" name="%(employee.create_contract_action)d" type="action"/>
+            </div>
             <group>
               <group>
                 <field name="first_name"/>

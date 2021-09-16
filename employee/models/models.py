@@ -59,6 +59,12 @@ class Employee(models.Model):
         ),
     ]
 
+    def name_get(self):
+        fname_lname_list = [
+            (record.id, f"{record.first_name}, {record.last_name}") for record in self
+        ]
+        return fname_lname_list
+
     def count_employee_age(self):
         if self.date_of_birth:
             today = datetime.now()
