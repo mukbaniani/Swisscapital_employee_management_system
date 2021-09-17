@@ -22,5 +22,7 @@
         "views/employee.xml",
         "views/contract_view.xml",
         "wizard/create_contract.xml",
+        "report/pdf-report/report.xml",
+        "report/pdf-report/employee_card.xml",
     ],
 }
