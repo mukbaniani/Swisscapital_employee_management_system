@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="abstract_employee_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <table class="table table-condensed" style="border: 3px solid black !important;">
+                                        <tr>
+                                            <td width="40%">
+                                                <p style="text-align:center;padding-top:10px;">
+                                                    <img t-att-src="'data:image/png;base64,%s' % to_text(o.image)" height="120" border="1" width="120"/>
+                                                </p>                                         
+                                            </td>
+                                            <td width="60%">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <p style="text-align:right;"><strong>სახელი: </strong></p>
+                                                            <p style="text-align:right;"><strong>გვარი: </strong></p>
+                                                            <p style="text-align:right;"><strong>პირადი ნომერი: </strong></p>
+                                                            <p style="text-align:right;"><strong>მოქალქეობა: </strong></p>
+                                                            <p style="text-align:left;"><strong>სქესი: </strong></p>
+                                                            <p style="text-align:left;"><strong>დაბადების თარიღი: </strong></p>
+                                                            <p style="text-align:left;"><strong>მოქმედების ვადა: </strong></p>
+                                                            <p style="text-align:left;"><strong>ბარათის ნომერი: </strong></p>
+                                                            <p style="text-align:left;"><strong>დაბადების ადგილი: </strong></p>
+                                                            <p style="text-align:left;"><strong>გაცემის თარიღი: </strong></p>
+                                                            <p style="text-align:left;"><strong>გამცემი ორგანო: </strong></p>
+                                                            <p style="text-align:left;"><strong>დეპარტამენტი: </strong></p>
+                                                            <p style="text-align:left;"><strong>პიროვნული თვისებები: </strong></p>
+                                                        </td>
+                                                        <td>
+                                                            <p style="text-align:left;padding-left:10px;"  t-field="o.first_name"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.last_name"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.person_number"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.citizenship"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.gender"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.date_of_birth"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.date_expiry"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.card_number"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.place_of_birth"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.date_of_issue"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.issueing_authority"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.department_id"/>
+                                                            <p style="text-align:left;padding-left:10px;" t-field="o.personal_quality"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

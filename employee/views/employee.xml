@@ -136,9 +136,10 @@
     actions
 
     <menuitem name="თანამშრომლების სია" id="employee.menu_1_list" parent="employee.menu_1"
-              action="employee.action_window" sequence="1"/>
+              action="employee.action_window" sequence="100"/>
     <menuitem name="კონტრაქტების სია" id="employee" parent="employee.menu_1"
-              action="contract_act_window" sequence="2"/>
+              action="contract_act_window" sequence="200"/>
+
 
   </data>
 </odoo>

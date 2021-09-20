@@ -24,5 +24,6 @@
         "wizard/create_contract.xml",
         "report/pdf-report/report.xml",
         "report/pdf-report/employee_card.xml",
+        "report/AbstractModel_report/employee_report.xml",
     ],
 }

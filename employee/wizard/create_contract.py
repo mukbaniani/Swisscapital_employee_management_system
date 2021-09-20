@@ -27,7 +27,7 @@ class CreateContractWizard(models.TransientModel):
             "constract_number": self.contract_number,
         }
         self.env["employee.contract"].create(contract_vals)
-        contract = self.env["employee.contract"].search([("id", "=", self.id)])
+        contract = self.env["employee.contract"].search([])[-1]
         self.env["employee.employee"].search([("id", "=", self.employee.id)]).update(
             {"contract": contract}
         )
