@@ -139,7 +139,9 @@
               action="employee.action_window" sequence="100"/>
     <menuitem name="კონტრაქტების სია" id="employee" parent="employee.menu_1"
               action="contract_act_window" sequence="200"/>
-
+    <menuitem name="SQL tree view" id="employee" parent="employee.menu_1"
+              action="employee_sql_tree_view_act_window" sequence="300"/>
+              
 
   </data>
 </odoo>

@@ -21,6 +21,7 @@
         # 'security/ir.model.access.csv',
         "views/employee.xml",
         "views/contract_view.xml",
+        "views/employee_custom_query.xml",
         "wizard/create_contract.xml",
         "report/pdf-report/report.xml",
         "report/pdf-report/employee_card.xml",
